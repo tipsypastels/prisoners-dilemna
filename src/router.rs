@@ -1,6 +1,11 @@
+mod index;
+mod other;
+
 use implicit_clone::ImplicitClone;
 use yew::prelude::*;
 use yew_router::prelude::*;
+
+pub type RouteLink = Link<Route>;
 
 #[derive(Debug, Clone, ImplicitClone, PartialEq, Routable)]
 pub enum Route {
@@ -8,6 +13,15 @@ pub enum Route {
     Index,
     #[at("/other")]
     Other,
+}
+
+impl Route {
+    pub fn title(&self) -> &'static str {
+        match self {
+            Self::Index => "Home",
+            Self::Other => "Other",
+        }
+    }
 }
 
 #[function_component]
@@ -30,7 +44,7 @@ pub fn Router() -> Html {
 
 fn switch(route: Route) -> Html {
     match route {
-        Route::Index => html! { <div class="font-bold">{"Index"}</div> },
-        Route::Other => html! { <div class="text-red-600">{"Other"}</div> },
+        Route::Index => html! { <index::Index /> },
+        Route::Other => html! { <other::Other /> },
     }
 }
