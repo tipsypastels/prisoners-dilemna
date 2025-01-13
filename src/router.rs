@@ -14,7 +14,7 @@ pub enum Route {
 pub fn Router() -> Html {
     html! {
         <div>
-            <BrowserRouter>
+            <BrowserRouter basename={option_env!("GH_REPO_NAME")}>
                 <Switch<Route> render={switch} />
             </BrowserRouter>
         </div>
