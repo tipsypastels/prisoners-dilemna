@@ -1,3 +1,6 @@
+mod router;
+
+use self::router::Router;
 use yew::prelude::*;
 
 #[function_component]
@@ -15,6 +18,8 @@ fn App() -> Html {
         <div class="p-4 px-8 font-bold">
             <button {onclick}>{ "+1" }</button>
             <p>{ *counter }</p>
+
+            <Router />
         </div>
     }
 }
