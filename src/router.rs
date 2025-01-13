@@ -12,9 +12,10 @@ pub enum Route {
 
 #[function_component]
 pub fn Router() -> Html {
+    gloo::console::log!(option_env!("GH_PAGES_BASENAME"));
     html! {
         <div>
-            <BrowserRouter basename={option_env!("GH_REPO_NAME")}>
+            <BrowserRouter basename={option_env!("GH_PAGES_BASENAME")}>
                 <Switch<Route> render={switch} />
             </BrowserRouter>
         </div>

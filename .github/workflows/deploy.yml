@@ -32,7 +32,7 @@ jobs:
 
       - name: Build
         env:
-          GH_REPO_NAME: "${{ github.event.repository.name }}"
+          GH_PAGES_BASENAME: "/${{ github.event.repository.name }}"
         run: trunk build --public-url /${{ github.event.repository.name }} --release
 
       - name: Setup Pages
