@@ -12,12 +12,18 @@ pub enum Route {
 
 #[function_component]
 pub fn Router() -> Html {
-    gloo::console::log!(option_env!("GH_PAGES_BASENAME"));
+    #[cfg(feature = "hash-router")]
+    type MyRouter = HashRouter;
+    #[cfg(not(feature = "hash-router"))]
+    type MyRouter = BrowserRouter;
+
     html! {
         <div>
-            <BrowserRouter basename={option_env!("GH_PAGES_BASENAME")}>
+            <MyRouter basename={option_env!("PUBLIC_URL")}>
+                <Link<Route> to={Route::Index}>{"Go to Index"}</Link<Route>>
+                <Link<Route> to={Route::Other}>{"Go to Other"}</Link<Route>>
                 <Switch<Route> render={switch} />
-            </BrowserRouter>
+            </MyRouter>
         </div>
     }
 }
