@@ -1,9 +1,13 @@
 {
   "name": "prisoners-dilemna",
   "private": true,
+  "workspaces": [
+    "js/core",
+    "js/editor"
+  ],
   "scripts": {
     "serve": "trunk serve",
-    "build": "cd js/core && rolldown -c",
+    "build": "npm run build:core",
     "build:core": "cd js/core && rolldown -c"
   },
   "devDependencies": {
