@@ -10,7 +10,7 @@ pub struct DuelsPlayerProps {
 
 #[function_component]
 pub fn DuelsPlayer(props: &DuelsPlayerProps) -> Html {
-    let (player, &turns) = (&props.player, &props.turns);
+    let (player, turns) = (&props.player, props.turns);
     html! {
         <section>
             <h3 class="text-3xl font-bold mb-4">
