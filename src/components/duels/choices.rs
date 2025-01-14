@@ -75,7 +75,6 @@ enum ColBaseIcon {
 }
 
 #[function_component]
-#[allow(clippy::let_and_return)] // for tw intellisense
 fn ColBase(props: &ColBaseProps) -> Html {
     let icon_base_class = tw!("flex h-12 w-12 items-center justify-center border-2 border-b-0 border-slate-800 text-2xl text-white");
     let score_base_class = tw!("flex h-12 w-12 items-center justify-center rounded-b-md border-2 border-slate-800 text-2xl");
