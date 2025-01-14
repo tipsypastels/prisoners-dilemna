@@ -27,3 +27,10 @@ fn App() -> Html {
 fn main() {
     yew::Renderer::<App>::new().render();
 }
+
+#[macro_export]
+macro_rules! tw {
+    ($class:literal) => {
+        $class
+    };
+}

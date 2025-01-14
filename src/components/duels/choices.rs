@@ -1,6 +1,7 @@
 use crate::{
     components::icon::Icon,
     models::{Choice, DuelPlayerOutcome, DuelTurns, PlayerHistoryEntry, PlayerStatus},
+    tw,
 };
 use yew::prelude::*;
 
@@ -18,9 +19,9 @@ pub fn DuelsPlayerChoices(props: &DuelsPlayerChoicesProps) -> Html {
     let cols = entries.map(|entry| html! { <Col entry={entry} /> });
 
     let total_score_class = props.outcome.map(|outcome| match outcome {
-        DuelPlayerOutcome::Won => "bg-green-600",
-        DuelPlayerOutcome::Lost => "bg-red-600",
-        DuelPlayerOutcome::Tie => "text-grey-600",
+        DuelPlayerOutcome::Won => tw!("bg-green-600"),
+        DuelPlayerOutcome::Lost => tw!("bg-red-600"),
+        DuelPlayerOutcome::Tie => tw!("text-red-600"),
     });
 
     html! {
@@ -48,8 +49,8 @@ fn Col(props: &ColProps) -> Html {
     };
 
     let icon = match entry.choice {
-        Choice::Cooperate => ColBaseIcon::Icon("hand", "Cooperate", "bg-green-600"),
-        Choice::Defect => ColBaseIcon::Icon("hand-fist", "Defect", "bg-red-600"),
+        Choice::Cooperate => ColBaseIcon::Icon("hand", "Cooperate", tw!("bg-green-600")),
+        Choice::Defect => ColBaseIcon::Icon("hand-fist", "Defect", tw!("bg-red-600")),
     };
 
     html! { <ColBase icon={icon} score={Some(entry.gain)} /> }
@@ -76,16 +77,8 @@ enum ColBaseIcon {
 #[function_component]
 #[allow(clippy::let_and_return)] // for tw intellisense
 fn ColBase(props: &ColBaseProps) -> Html {
-    let icon_base_class = {
-        let class =
-            "flex h-12 w-12 items-center justify-center border-2 border-b-0 border-slate-800 text-2xl text-white";
-        class
-    };
-
-    let score_base_class = {
-        let class = "flex h-12 w-12 items-center justify-center rounded-b-md border-2 border-slate-800 text-2xl";
-        class
-    };
+    let icon_base_class = tw!("flex h-12 w-12 items-center justify-center border-2 border-b-0 border-slate-800 text-2xl text-white");
+    let score_base_class = tw!("flex h-12 w-12 items-center justify-center rounded-b-md border-2 border-slate-800 text-2xl");
 
     html! {
         <li class="w-12">

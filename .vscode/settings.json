@@ -4,5 +4,8 @@
   },
   "tailwindCSS.includeLanguages": {
     "rust": "javascript"
-  }
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["tw!\\(([^)]*)\\)", "\"([^\"]*)\""]
+  ]
 }
