@@ -30,7 +30,19 @@ jobs:
         run: |
           rustup target add wasm32-unknown-unknown
 
-      - name: Build
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install JS dependencies
+        run: npm install
+
+      - name: Build JS
+        run: npm run build
+
+      - name: Build Rust
         env:
           PUBLIC_URL: "/${{ github.event.repository.name }}"
         run: trunk build --public-url /${{ github.event.repository.name }} --features hash-router --release

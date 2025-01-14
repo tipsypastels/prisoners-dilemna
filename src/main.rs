@@ -9,10 +9,18 @@ use self::{
     router::Router,
     state::{State, StateContextProvider},
 };
+use wasm_bindgen::prelude::*;
 use yew::prelude::*;
 
 #[function_component]
 fn App() -> Html {
+    #[wasm_bindgen(module = "/js/core/dist/index.js")]
+    extern "C" {
+        pub fn test_hi();
+    }
+
+    test_hi();
+
     let state = use_reducer(State::default);
 
     html! {

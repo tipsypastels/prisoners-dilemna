@@ -1,0 +1,8 @@
+{
+  "name": "prisoners-dilemna-core",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "rolldown": "workspace:*"
+  }
+}
