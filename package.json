@@ -7,8 +7,8 @@
   ],
   "scripts": {
     "build": "npm run build:core && npm run build:editor",
-    "build:core": "cd js/core && rolldown -c",
-    "build:editor": "cd js/editor && rolldown -c"
+    "build:core": "cd js/core && npm run build",
+    "build:editor": "cd js/editor && npm run build"
   },
   "devDependencies": {
     "rolldown": "1.0.0-beta.1",

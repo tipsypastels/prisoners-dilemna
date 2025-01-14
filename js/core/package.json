@@ -2,6 +2,9 @@
   "name": "prisoners-dilemna-core",
   "type": "module",
   "private": true,
+  "scripts": {
+    "build": "rolldown -c"
+  },
   "devDependencies": {
     "rolldown": "1.0.0-beta.1"
   }
