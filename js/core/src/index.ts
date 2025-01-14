@@ -12,7 +12,7 @@ export function test_hi() {
 }
 
 async function test_import_editor() {
-  const mod: typeof import("../editor/index.ts") = await import(
+  const mod: typeof import("../../editor/src/index.js") = await import(
     `${public_url}/editor-js/index.js`
   );
   return mod;

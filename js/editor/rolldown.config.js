@@ -2,7 +2,7 @@ import { defineConfig } from "rolldown";
 import { minify } from "rollup-plugin-esbuild";
 
 export default defineConfig({
-  input: "index.ts",
+  input: "src/index.ts",
   output: {
     file: "dist/index.js",
   },
