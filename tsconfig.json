@@ -3,6 +3,11 @@
     "strict": true,
     "checkJs": true,
     "noEmit": true,
+    "esModuleInterop": true,
+    "downlevelIteration": true,
     "lib": ["DOM", "DOM.Iterable", "DOM.AsyncIterable", "ES2020"]
-  }
+  },
+  "exclude": [
+    "js/**/dist/*"
+  ]
 }
