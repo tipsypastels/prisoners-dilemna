@@ -33,6 +33,7 @@ pub struct NativeStrategy {
     turn: fn(DuelView) -> Choice,
 }
 
+#[allow(unused)]
 impl NativeStrategy {
     pub const ALWAYS_COOPERATE: Self = Self {
         name: "Always Cooperate",
@@ -52,8 +53,7 @@ impl NativeStrategy {
         turn: |view| {
             view.them
                 .history()
-                .last()
-                .copied()
+                .last_choice()
                 .unwrap_or(Choice::Cooperate)
         },
     };
