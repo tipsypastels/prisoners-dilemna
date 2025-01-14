@@ -65,13 +65,13 @@ impl PlayerStatus {
 
 #[derive(Debug, Clone, ImplicitClone, PartialEq)]
 pub struct PlayerHistory {
-    items: IArray<PlayerHistoryItem>,
+    entries: IArray<PlayerHistoryEntry>,
     ever_cooperated: bool,
     ever_defected: bool,
 }
 
 #[derive(Debug, Copy, Clone, ImplicitClone, PartialEq)]
-pub struct PlayerHistoryItem {
+pub struct PlayerHistoryEntry {
     pub choice: Choice,
     pub gain: u32,
 }
@@ -79,7 +79,7 @@ pub struct PlayerHistoryItem {
 impl PlayerHistory {
     fn new() -> Self {
         Self {
-            items: IArray::default(),
+            entries: IArray::default(),
             ever_cooperated: false,
             ever_defected: false,
         }
@@ -87,18 +87,18 @@ impl PlayerHistory {
 
     fn next(self, choice: Choice, gain: u32) -> Self {
         Self {
-            items: self.items.push(PlayerHistoryItem { choice, gain }),
+            entries: self.entries.push(PlayerHistoryEntry { choice, gain }),
             ever_cooperated: self.ever_cooperated || choice.is_cooperate(),
             ever_defected: self.ever_defected || choice.is_defect(),
         }
     }
 
     pub fn first_choice(&self) -> Option<Choice> {
-        self.items.first().copied().map(|i| i.choice)
+        self.entries.first().copied().map(|i| i.choice)
     }
 
     pub fn last_choice(&self) -> Option<Choice> {
-        self.items.last().copied().map(|i| i.choice)
+        self.entries.last().copied().map(|i| i.choice)
     }
 
     pub fn ever_cooperated(&self) -> bool {
@@ -111,9 +111,9 @@ impl PlayerHistory {
 }
 
 impl Deref for PlayerHistory {
-    type Target = [PlayerHistoryItem];
+    type Target = [PlayerHistoryEntry];
 
     fn deref(&self) -> &Self::Target {
-        &self.items
+        &self.entries
     }
 }

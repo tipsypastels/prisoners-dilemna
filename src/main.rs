@@ -1,3 +1,4 @@
+mod components;
 mod ext;
 mod layout;
 mod models;
