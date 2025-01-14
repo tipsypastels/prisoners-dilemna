@@ -6,9 +6,9 @@
     "js/editor"
   ],
   "scripts": {
-    "serve": "trunk serve",
-    "build": "npm run build:core",
-    "build:core": "cd js/core && rolldown -c"
+    "build": "npm run build:core && npm run build:editor",
+    "build:core": "cd js/core && rolldown -c",
+    "build:editor": "cd js/editor && rolldown -c"
   },
   "devDependencies": {
     "rolldown": "1.0.0-beta.1",

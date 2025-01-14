@@ -16,10 +16,10 @@ use yew::prelude::*;
 fn App() -> Html {
     #[wasm_bindgen(module = "/js/core/dist/index.js")]
     extern "C" {
-        pub fn test_hi();
+        pub fn test_hi(public_url: Option<&str>);
     }
 
-    test_hi();
+    test_hi(option_env!("PUBLIC_URL"));
 
     let state = use_reducer(State::default);
 
