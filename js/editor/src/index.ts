@@ -4,10 +4,20 @@ import ts from "typescript";
 import * as tsvfs from "@typescript/vfs";
 import lzstring from "lz-string";
 
-export async function init(doc: string, parent: HTMLElement) {
-  const { fs, program } = await init_ts(doc);
-  console.log(fs.get(index_js));
-  return new EditorView({
+let ts_instance: {
+  fs: Map<string, string>;
+  program: ts.Program;
+};
+
+export function init(doc: string, parent: HTMLElement) {
+  console.log("init");
+  init_ts(doc).then((i) => {
+    ts_instance = i;
+    console.log(i.fs.get(index_js));
+  });
+
+  console.log("making editor");
+  const view = new EditorView({
     doc,
     parent,
     extensions: [
@@ -15,6 +25,8 @@ export async function init(doc: string, parent: HTMLElement) {
       javascript(),
     ],
   });
+  console.log("made editor");
+  return view;
 }
 
 async function init_ts(doc: string) {
