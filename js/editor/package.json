@@ -3,7 +3,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "rolldown -c"
+    "build": "rolldown -c",
+    "watch": "rolldown -w -c"
   },
   "dependencies": {
     "@codemirror/autocomplete": "^6.18.4",

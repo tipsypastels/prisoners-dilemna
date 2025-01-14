@@ -1,2 +1,2 @@
 [watch]
-ignore = ["js"]
+ignore = ["js/core/src", "js/editor/src"]

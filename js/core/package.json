@@ -3,7 +3,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "rolldown -c"
+    "build": "rolldown -c",
+    "watch": "rolldown -w -c"
   },
   "devDependencies": {
     "rolldown": "1.0.0-beta.1"
