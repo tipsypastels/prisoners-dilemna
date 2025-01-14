@@ -55,10 +55,18 @@ impl Duel {
             let s1 = self.p1.status().score();
             let s2 = self.p2.status().score();
             match () {
-                () if s1 > s2 => DuelOutcome::Win(DuelWinner::P1),
-                () if s2 > s1 => DuelOutcome::Win(DuelWinner::P2),
+                () if s1 > s2 => DuelOutcome::Win(DuelPlayerId::P1),
+                () if s2 > s1 => DuelOutcome::Win(DuelPlayerId::P2),
                 () => DuelOutcome::Tie,
             }
+        })
+    }
+
+    pub fn outcome_for(&self, player: DuelPlayerId) -> Option<DuelPlayerOutcome> {
+        Some(match self.outcome()? {
+            DuelOutcome::Tie => DuelPlayerOutcome::Tie,
+            DuelOutcome::Win(p) if p == player => DuelPlayerOutcome::Won,
+            DuelOutcome::Win(_) => DuelPlayerOutcome::Lost,
         })
     }
 
@@ -109,12 +117,43 @@ impl<'a> DuelView<'a> {
 
 #[derive(Debug, Copy, Clone, ImplicitClone, PartialEq)]
 pub enum DuelOutcome {
-    Win(DuelWinner),
+    Win(DuelPlayerId),
     Tie,
 }
 
 #[derive(Debug, Copy, Clone, ImplicitClone, PartialEq)]
-pub enum DuelWinner {
+pub enum DuelPlayerId {
     P1,
     P2,
+}
+
+impl DuelPlayerId {
+    pub fn is_p1(self) -> bool {
+        matches!(self, Self::P1)
+    }
+
+    pub fn is_p2(self) -> bool {
+        matches!(self, Self::P2)
+    }
+}
+
+#[derive(Debug, Copy, Clone, ImplicitClone, PartialEq)]
+pub enum DuelPlayerOutcome {
+    Won,
+    Lost,
+    Tie,
+}
+
+impl DuelPlayerOutcome {
+    pub fn is_won(self) -> bool {
+        matches!(self, Self::Won)
+    }
+
+    pub fn is_lost(self) -> bool {
+        matches!(self, Self::Lost)
+    }
+
+    pub fn is_tie(self) -> bool {
+        matches!(self, Self::Tie)
+    }
 }

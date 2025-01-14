@@ -1,7 +1,7 @@
 use crate::{
     components::duels::DuelsPlayer,
     layout::Layout,
-    models::{Duel, NativeStrategy, Player, Strategy},
+    models::{Duel, DuelPlayerId, NativeStrategy, Player, Strategy},
     state::{use_state_context, Action},
 };
 use yew::prelude::*;
@@ -49,11 +49,13 @@ pub fn Index() -> Html {
                 <DuelsPlayer
                     player={duel.p1().clone()}
                     turns={duel.turns()}
+                    outcome={duel.outcome_for(DuelPlayerId::P1)}
                 />
 
                 <DuelsPlayer
                     player={duel.p2().clone()}
                     turns={duel.turns()}
+                    outcome={duel.outcome_for(DuelPlayerId::P2)}
                 />
 
                 <button onclick={duel_turn}>
