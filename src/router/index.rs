@@ -1,5 +1,5 @@
 use crate::{
-    components::duels::choices::DuelsPlayerChoices,
+    components::duels::DuelsPlayer,
     layout::Layout,
     models::{Duel, NativeStrategy, Player, Strategy},
     state::{use_state_context, Action},
@@ -42,15 +42,17 @@ pub fn Index() -> Html {
     html! {
         <Layout>
             if let Some(duel) = &state.duel {
-                {format!("{duel:?}")}
+                <h2>
+                    {"Duel"}
+                </h2>
 
-                <DuelsPlayerChoices
-                    status={duel.p1().status().clone()}
+                <DuelsPlayer
+                    player={duel.p1().clone()}
                     turns={duel.turns()}
                 />
 
-                <DuelsPlayerChoices
-                    status={duel.p2().status().clone()}
+                <DuelsPlayer
+                    player={duel.p2().clone()}
                     turns={duel.turns()}
                 />
 
