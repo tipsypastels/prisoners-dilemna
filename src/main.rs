@@ -1,3 +1,4 @@
+mod bindings;
 mod components;
 mod ext;
 mod layout;
@@ -9,17 +10,11 @@ use self::{
     router::Router,
     state::{State, StateContextProvider},
 };
-use wasm_bindgen::prelude::*;
 use yew::prelude::*;
 
 #[function_component]
 fn App() -> Html {
-    #[wasm_bindgen(module = "/js/core/dist/index.js")]
-    extern "C" {
-        pub fn test_hi(public_url: Option<&str>);
-    }
-
-    test_hi(option_env!("PUBLIC_URL"));
+    bindings::test_hi();
 
     let state = use_reducer(State::default);
 
@@ -33,6 +28,7 @@ fn App() -> Html {
 }
 
 fn main() {
+    bindings::set_public_url(option_env!("PUBLIC_URL").unwrap_or_default());
     yew::Renderer::<App>::new().render();
 }
 
