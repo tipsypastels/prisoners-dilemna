@@ -1,2 +1,7 @@
 [watch]
-ignore = ["js/core/src", "js/editor/src"]
+ignore = ["js/core/dist", "js/editor/dist"]
+
+[[hooks]]
+stage = "pre_build"
+command = "npm"
+command_arguments = ["run", "build"]

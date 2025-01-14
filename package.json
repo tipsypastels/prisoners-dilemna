@@ -6,13 +6,12 @@
     "js/editor"
   ],
   "scripts": {
-    "build": "npm run build:core && npm run build:editor",
+    "build": "concurrently \"npm run build:core\" \"npm run build:editor\"",
     "build:core": "cd js/core && npm run build",
-    "build:editor": "cd js/editor && npm run build",
-    "watch:core": "cd js/core && npm run watch",
-    "watch:editor": "cd js/editor && npm run watch"
+    "build:editor": "cd js/editor && npm run build"
   },
   "devDependencies": {
+    "concurrently": "^9.1.2",
     "rolldown": "1.0.0-beta.1",
     "tailwindcss": "^3.4.17"
   }
