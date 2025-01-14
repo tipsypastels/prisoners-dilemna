@@ -1,4 +1,5 @@
 import { EditorView, minimalSetup } from "codemirror";
+import { javascript } from "@codemirror/lang-javascript";
 
 export async function init(parent: HTMLElement): Promise<EditorView> {
   console.log(parent);
@@ -6,6 +7,7 @@ export async function init(parent: HTMLElement): Promise<EditorView> {
     parent,
     extensions: [
       minimalSetup,
+      javascript(),
     ],
   });
 }
