@@ -1,4 +1,5 @@
 use crate::{
+    components::duels::choices::DuelsPlayerChoices,
     layout::Layout,
     models::{Duel, NativeStrategy, Player, Strategy},
     state::{use_state_context, Action},
@@ -42,6 +43,16 @@ pub fn Index() -> Html {
         <Layout>
             if let Some(duel) = &state.duel {
                 {format!("{duel:?}")}
+
+                <DuelsPlayerChoices
+                    status={duel.p1().status().clone()}
+                    turns={duel.turns()}
+                />
+
+                <DuelsPlayerChoices
+                    status={duel.p2().status().clone()}
+                    turns={duel.turns()}
+                />
 
                 <button onclick={duel_turn}>
                     {"Advance"}

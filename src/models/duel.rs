@@ -38,6 +38,14 @@ impl Duel {
         Self { p1, p2, turns }
     }
 
+    pub fn p1(&self) -> &Player {
+        &self.p1
+    }
+
+    pub fn p2(&self) -> &Player {
+        &self.p2
+    }
+
     pub fn turns(&self) -> DuelTurns {
         self.turns
     }
