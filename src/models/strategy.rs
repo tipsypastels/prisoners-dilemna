@@ -7,6 +7,18 @@ pub enum Strategy {
 }
 
 impl Strategy {
+    pub fn name(&self) -> &str {
+        match self {
+            Self::Native(n) => n.name,
+        }
+    }
+
+    pub fn desc(&self) -> &str {
+        match self {
+            Self::Native(n) => n.desc,
+        }
+    }
+
     pub(super) fn turn(&self, view: DuelView) -> Choice {
         match self {
             Self::Native(s) => (s.turn)(view),
@@ -19,4 +31,30 @@ pub struct NativeStrategy {
     name: &'static str,
     desc: &'static str,
     turn: fn(DuelView) -> Choice,
+}
+
+impl NativeStrategy {
+    pub const ALWAYS_COOPERATE: Self = Self {
+        name: "Always Cooperate",
+        desc: "TODO",
+        turn: |_| Choice::Cooperate,
+    };
+
+    pub const ALWAYS_DEFECT: Self = Self {
+        name: "Always Defect",
+        desc: "TODO",
+        turn: |_| Choice::Defect,
+    };
+
+    pub const TIT_FOR_TAT: Self = Self {
+        name: "Tit-For-Tat",
+        desc: "TODO",
+        turn: |view| {
+            view.them
+                .history()
+                .last()
+                .copied()
+                .unwrap_or(Choice::Cooperate)
+        },
+    };
 }

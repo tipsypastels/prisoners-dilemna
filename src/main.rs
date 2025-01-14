@@ -2,27 +2,23 @@ mod ext;
 mod layout;
 mod models;
 mod router;
+mod state;
 
-use self::router::Router;
+use self::{
+    router::Router,
+    state::{State, StateContextProvider},
+};
 use yew::prelude::*;
 
 #[function_component]
 fn App() -> Html {
-    let counter = use_state(|| 0);
-    let onclick = {
-        let counter = counter.clone();
-        move |_| {
-            let value = *counter + 1;
-            counter.set(value);
-        }
-    };
+    let state = use_reducer(State::default);
 
     html! {
         <div class="p-4 px-8 font-bold">
-            <button {onclick}>{ "+1" }</button>
-            <p>{ *counter }</p>
-
-            <Router />
+            <StateContextProvider context={state}>
+                <Router />
+            </StateContextProvider>
         </div>
     }
 }

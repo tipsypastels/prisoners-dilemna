@@ -3,7 +3,7 @@ mod duel;
 mod player;
 mod strategy;
 
-use choice::*;
-use duel::*;
-use player::*;
-use strategy::*;
+pub use choice::*;
+pub use duel::*;
+pub use player::*;
+pub use strategy::*;
