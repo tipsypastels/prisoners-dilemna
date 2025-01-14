@@ -5,8 +5,8 @@ export function set_public_url(to: string) {
   public_url = to;
 }
 
-export async function editor_init(parent: HTMLElement) {
+export async function editor_init(doc: string, parent: HTMLElement) {
   type EditorModule = typeof import("../../editor/src/index");
   const mod: EditorModule = await import(`${public_url}/editor-js/index.js`);
-  return await mod.init(parent);
+  return await mod.init(doc, parent);
 }

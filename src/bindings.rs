@@ -9,5 +9,5 @@ extern "C" {
     pub type EditorView;
 
     pub fn set_public_url(public_url: &str);
-    pub async fn editor_init(parent: HtmlElement) -> EditorView;
+    pub async fn editor_init(doc: &str, parent: HtmlElement) -> EditorView;
 }
