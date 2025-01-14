@@ -10,5 +10,7 @@ hash-router = []
 gloo = { version = "0.11.0", features = ["console"] }
 implicit-clone = { version = "0.5.0", features = ["map", "serde"] }
 wasm-bindgen = "0.2.100"
+wasm-bindgen-futures = "0.4.50"
+web-sys = { version = "0.3.77", features = ["Element"] }
 yew = { version = "0.21.0", features = ["csr"] }
 yew-router = "0.18.0"

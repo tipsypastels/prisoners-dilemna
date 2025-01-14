@@ -1,36 +1,48 @@
-import ts from "typescript";
-import * as tsvfs from "@typescript/vfs";
-import lzstring from "lz-string";
+import { EditorView, minimalSetup } from "codemirror";
 
-export function test_editor() {
-  editor_main().then(() => {
-    console.log("editor_main DONE");
+export async function init(parent: HTMLElement): Promise<EditorView> {
+  console.log(parent);
+  return new EditorView({
+    parent,
+    extensions: [
+      minimalSetup,
+    ],
   });
 }
 
-async function editor_main() {
-  const fs = await tsvfs.createDefaultMapFromCDN(
-    {},
-    ts.version,
-    true,
-    ts,
-    lzstring,
-  );
-  fs.set("index.ts", "export const main = (x: string) => x;");
+// import ts from "typescript";
+// import * as tsvfs from "@typescript/vfs";
+// import lzstring from "lz-string";
 
-  const system = tsvfs.createSystem(fs);
-  const host = tsvfs.createVirtualCompilerHost(system, {}, ts);
+// export function test_editor() {
+//   editor_main().then(() => {
+//     console.log("editor_main DONE");
+//   });
+// }
 
-  const program = ts.createProgram({
-    rootNames: [...fs.keys()],
-    options: {},
-    host: host.compilerHost,
-  });
+// async function editor_main() {
+//   const fs = await tsvfs.createDefaultMapFromCDN(
+//     {},
+//     ts.version,
+//     true,
+//     ts,
+//     lzstring,
+//   );
+//   fs.set("index.ts", "export const main = (x: string) => x;");
 
-  program.emit();
+//   const system = tsvfs.createSystem(fs);
+//   const host = tsvfs.createVirtualCompilerHost(system, {}, ts);
 
-  console.log(fs.get("index.js"));
-  // console.log(program.getSourceFiles().map((f) => f.fileName));
-  // const index = program.getSourceFile("index.ts");
-  // console.log(index?.text);
-}
+//   const program = ts.createProgram({
+//     rootNames: [...fs.keys()],
+//     options: {},
+//     host: host.compilerHost,
+//   });
+
+//   program.emit();
+
+//   console.log(fs.get("index.js"));
+//   // console.log(program.getSourceFiles().map((f) => f.fileName));
+//   // const index = program.getSourceFile("index.ts");
+//   // console.log(index?.text);
+// }

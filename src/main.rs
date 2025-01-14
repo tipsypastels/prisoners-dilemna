@@ -14,14 +14,13 @@ use yew::prelude::*;
 
 #[function_component]
 fn App() -> Html {
-    bindings::test_hi();
-
     let state = use_reducer(State::default);
 
     html! {
         <div class="p-4 px-8 font-bold">
             <StateContextProvider context={state}>
                 <Router />
+                <self::components::editor::Editor />
             </StateContextProvider>
         </div>
     }

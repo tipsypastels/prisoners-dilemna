@@ -5,15 +5,8 @@ export function set_public_url(to: string) {
   public_url = to;
 }
 
-export function test_hi() {
-  test_import_editor().then((mod) => {
-    mod.test_editor();
-  });
-}
-
-async function test_import_editor() {
-  const mod: typeof import("../../editor/src/index.js") = await import(
-    `${public_url}/editor-js/index.js`
-  );
-  return mod;
+export async function editor_init(parent: HTMLElement) {
+  type EditorModule = typeof import("../../editor/src/index");
+  const mod: EditorModule = await import(`${public_url}/editor-js/index.js`);
+  return await mod.init(parent);
 }
