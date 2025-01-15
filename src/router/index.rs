@@ -1,5 +1,5 @@
 use crate::{
-    components::{duels::DuelsPlayer, layout::Layout},
+    components::{duels::DuelsPlayer, layout::Layout, strategies::StrategiesList},
     models::{Duel, DuelPlayerId, NativeStrategy, Player, Strategy},
     state::{use_state_context, Action},
 };
@@ -65,6 +65,8 @@ pub fn Index() -> Html {
                     {"Close"}
                 </button>
             } else {
+                <StrategiesList />
+
                 <button onclick={duel_new}>
                     {"New Duel"}
                 </button>

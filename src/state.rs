@@ -1,4 +1,5 @@
-use crate::models::Duel;
+use crate::models::{CustomStrategy, Duel};
+use implicit_clone::unsync::IArray;
 use std::rc::Rc;
 use yew::prelude::*;
 
@@ -8,12 +9,16 @@ pub type StateContextProvider = ContextProvider<StateContext>;
 #[derive(Debug, PartialEq)]
 pub struct State {
     pub duel: Option<Duel>,
+    pub custom_strategies: IArray<CustomStrategy>,
 }
 
 #[allow(clippy::derivable_impls)]
 impl Default for State {
     fn default() -> Self {
-        Self { duel: None }
+        Self {
+            duel: None,
+            custom_strategies: IArray::default(),
+        }
     }
 }
 
@@ -29,11 +34,18 @@ impl Reducible for State {
 
     fn reduce(self: Rc<Self>, action: Self::Action) -> Rc<Self> {
         match action {
-            Action::Duel(duel) => Rc::new(Self { duel: Some(duel) }),
+            Action::Duel(duel) => Rc::new(Self {
+                duel: Some(duel),
+                custom_strategies: self.custom_strategies.clone(),
+            }),
             Action::DuelTurn => Rc::new(Self {
                 duel: self.duel.as_ref().cloned().map(|d| d.next()),
+                custom_strategies: self.custom_strategies.clone(),
             }),
-            Action::DuelClose => Rc::new(Self { duel: None }),
+            Action::DuelClose => Rc::new(Self {
+                duel: None,
+                custom_strategies: self.custom_strategies.clone(),
+            }),
         }
     }
 }

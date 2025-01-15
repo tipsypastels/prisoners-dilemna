@@ -19,7 +19,6 @@ fn App() -> Html {
         <div class="p-4 px-8 font-bold">
             <StateContextProvider context={state}>
                 <Router />
-                <self::components::editor::Editor doc={implicit_clone::unsync::IString::from("")} />
             </StateContextProvider>
         </div>
     }
