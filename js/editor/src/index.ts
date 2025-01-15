@@ -1,4 +1,8 @@
-import { closeBrackets } from "@codemirror/autocomplete";
+import {
+  autocompletion,
+  closeBrackets,
+  completeFromList,
+} from "@codemirror/autocomplete";
 import { indentWithTab } from "@codemirror/commands";
 import { javascript } from "@codemirror/lang-javascript";
 import { bracketMatching } from "@codemirror/language";
@@ -27,7 +31,26 @@ export function create(doc: string, parent: HTMLElement) {
       bracketMatching(),
       closeBrackets(),
       keymap.of([indentWithTab]),
-      javascript(),
+      autocompletion({
+        override: [
+          (ctx) => {
+            if (!server) {
+              return null;
+            }
+            const completions = server.getAutocomplete(ctx.pos);
+            if (!completions) {
+              return null;
+            }
+
+            return completeFromList(
+              completions.entries.map((c) => ({
+                type: c.kind,
+                label: c.name,
+              })),
+            )(ctx);
+          },
+        ],
+      }),
       hoverTooltip((_view, pos) => {
         if (!server) {
           return null;
@@ -48,6 +71,7 @@ export function create(doc: string, parent: HTMLElement) {
 
         return { pos, end, create } satisfies Tooltip;
       }),
+      javascript(),
     ],
   });
   return view;

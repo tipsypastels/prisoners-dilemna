@@ -11,6 +11,7 @@ const COMPILER_OPTIONS: ts.CompilerOptions = {
 };
 
 export interface Server {
+  getAutocomplete(pos: number): ts.CompletionInfo | undefined;
   getTooltipInfo(pos: number): ts.QuickInfo | undefined;
   updateFile(doc: string): void;
 }
@@ -37,6 +38,9 @@ export async function createServer(doc: string): Promise<Server> {
 
   console.log("typescript initialized");
   return {
+    getAutocomplete(pos) {
+      return env.languageService.getCompletionsAtPosition(INDEX_TS, pos, {});
+    },
     getTooltipInfo(pos) {
       return env.languageService.getQuickInfoAtPosition(INDEX_TS, pos);
     },
