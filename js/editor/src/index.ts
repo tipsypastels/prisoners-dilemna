@@ -7,8 +7,17 @@ import { indentWithTab } from "@codemirror/commands";
 import { javascript } from "@codemirror/lang-javascript";
 import { bracketMatching } from "@codemirror/language";
 import { hoverTooltip, keymap, Tooltip } from "@codemirror/view";
+import { Diagnostic, linter } from "@codemirror/lint";
 import { EditorView, minimalSetup } from "codemirror";
 import { createServer, Server } from "./server";
+
+// ordered same as ts's `DiagnosticCategory` enum
+const LINT_SEVERITIES: Diagnostic["severity"][] = [
+  "warning",
+  "error",
+  "info",
+  "info",
+];
 
 export function create(doc: string, parent: HTMLElement) {
   let server: Server | undefined;
@@ -71,6 +80,30 @@ export function create(doc: string, parent: HTMLElement) {
         };
 
         return { pos, end, create } satisfies Tooltip;
+      }),
+      linter(() => {
+        if (!server) {
+          return [];
+        }
+
+        const tsDiagnostics = server.getDiagnostics();
+        const diagnostics: Diagnostic[] = [];
+
+        for (const tsD of tsDiagnostics) {
+          if (tsD.start && tsD.length) {
+            const from = tsD.start;
+            const to = from + tsD.length;
+            const source = tsD.source;
+            const severity = LINT_SEVERITIES[tsD.category];
+            const message = typeof tsD.messageText === "string"
+              ? tsD.messageText
+              : tsD.messageText.messageText;
+
+            diagnostics.push({ from, to, source, severity, message });
+          }
+        }
+
+        return diagnostics;
       }),
       javascript(),
     ],
