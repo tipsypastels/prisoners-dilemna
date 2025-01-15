@@ -27,7 +27,7 @@ pub fn Editor(props: &EditorProps) -> Html {
 
             spawn_local(async move {
                 let parent = node_ref.cast::<HtmlElement>().unwrap();
-                let view = bindings::editor_init(&doc, parent).await;
+                let view = bindings::create_editor(&doc, parent).await;
                 view_ref.borrow_mut().replace(view);
             });
         },

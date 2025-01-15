@@ -8,6 +8,9 @@ extern "C" {
     #[derive(Debug, Clone, ImplicitClone, PartialEq)]
     pub type EditorView;
 
+    #[wasm_bindgen(js_name = setPublicUrl)]
     pub fn set_public_url(public_url: &str);
-    pub async fn editor_init(doc: &str, parent: HtmlElement) -> EditorView;
+
+    #[wasm_bindgen(js_name = createEditor)]
+    pub async fn create_editor(doc: &str, parent: HtmlElement) -> EditorView;
 }

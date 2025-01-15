@@ -1,63 +1,54 @@
-import { EditorView, minimalSetup } from "codemirror";
+import { closeBrackets } from "@codemirror/autocomplete";
+import { indentWithTab } from "@codemirror/commands";
 import { javascript } from "@codemirror/lang-javascript";
-import ts from "typescript";
-import * as tsvfs from "@typescript/vfs";
-import lzstring from "lz-string";
+import { bracketMatching } from "@codemirror/language";
+import { hoverTooltip, keymap, Tooltip } from "@codemirror/view";
+import { EditorView, minimalSetup } from "codemirror";
+import { createServer, Server } from "./server";
 
-let ts_instance: {
-  fs: Map<string, string>;
-  program: ts.Program;
-};
+export function create(doc: string, parent: HTMLElement) {
+  let server: Server | undefined;
+  createServer(doc).then((s) => server = s);
 
-export function init(doc: string, parent: HTMLElement) {
-  console.log("init");
-  init_ts(doc).then((i) => {
-    ts_instance = i;
-    console.log(i.fs.get(index_js));
-  });
-
-  console.log("making editor");
   const view = new EditorView({
     doc,
     parent,
+    dispatch: (tr) => {
+      view.update([tr]);
+      // TODO: This is sort of a race condition
+      // if changes are made before server starts?
+      if (server && tr.docChanged) {
+        const doc = tr.state.doc.sliceString(0);
+        server.updateFile(doc);
+      }
+    },
     extensions: [
       minimalSetup,
+      bracketMatching(),
+      closeBrackets(),
+      keymap.of([indentWithTab]),
       javascript(),
+      hoverTooltip((_view, pos) => {
+        if (!server) {
+          return null;
+        }
+
+        const info = server.getTooltipInfo(pos);
+        if (!info) {
+          return null;
+        }
+
+        const end = pos + info.textSpan.length;
+        const create = () => {
+          const dom = document.createElement("div");
+          dom.className = "cm-tooltip-cursor";
+          dom.textContent = JSON.stringify(info, null, 2);
+          return { dom };
+        };
+
+        return { pos, end, create } satisfies Tooltip;
+      }),
     ],
   });
-  console.log("made editor");
   return view;
 }
-
-async function init_ts(doc: string) {
-  const fs = await tsvfs.createDefaultMapFromCDN(
-    compiler_options,
-    ts.version,
-    ts_do_cache,
-    ts,
-    lzstring,
-  );
-
-  fs.set(index_ts, doc);
-
-  const system = tsvfs.createSystem(fs);
-  const host = tsvfs.createVirtualCompilerHost(system, compiler_options, ts);
-
-  const program = ts.createProgram({
-    rootNames: [...fs.keys()],
-    options: compiler_options,
-    host: host.compilerHost,
-  });
-
-  program.emit();
-
-  return { fs, program };
-}
-
-const index_ts = "index.ts";
-const index_js = "index.js";
-const ts_do_cache = true;
-const compiler_options: ts.CompilerOptions = {
-  strict: true,
-  checkJs: true,
-};
