@@ -1,6 +1,5 @@
 use crate::{
-    components::duels::DuelsPlayer,
-    layout::Layout,
+    components::{duels::DuelsPlayer, layout::Layout},
     models::{Duel, DuelPlayerId, NativeStrategy, Player, Strategy},
     state::{use_state_context, Action},
 };

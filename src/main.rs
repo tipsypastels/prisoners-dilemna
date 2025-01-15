@@ -1,7 +1,6 @@
 mod bindings;
 mod components;
 mod ext;
-mod layout;
 mod models;
 mod router;
 mod state;
