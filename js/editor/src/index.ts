@@ -46,6 +46,7 @@ export function create(doc: string, parent: HTMLElement) {
               completions.entries.map((c) => ({
                 type: c.kind,
                 label: c.name,
+                boost: 1 / Number(c.sortText),
               })),
             )(ctx);
           },
