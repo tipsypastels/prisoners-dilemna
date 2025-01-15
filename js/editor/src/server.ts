@@ -57,7 +57,11 @@ export async function createServer(doc: string): Promise<Server> {
       return { text, len };
     },
     getDiagnostics() {
-      return srv.getSemanticDiagnostics(INDEX_JS);
+      return ([] as ts.Diagnostic[]).concat(
+        srv.getSyntacticDiagnostics(INDEX_JS),
+        srv.getSemanticDiagnostics(INDEX_JS),
+        srv.getSuggestionDiagnostics(INDEX_JS),
+      );
     },
     updateFile(doc) {
       env.updateFile(INDEX_JS, doc || " ");
