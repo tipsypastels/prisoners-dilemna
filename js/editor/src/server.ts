@@ -12,7 +12,7 @@ const COMPILER_OPTIONS: ts.CompilerOptions = {
 
 export interface Server {
   getAutocomplete(pos: number): ts.CompletionInfo | undefined;
-  getTooltipInfo(pos: number): ts.QuickInfo | undefined;
+  getTooltip(pos: number): { text: string; len: number } | undefined;
   getDiagnostics(): ts.Diagnostic[];
   updateFile(doc: string): void;
 }
@@ -43,8 +43,18 @@ export async function createServer(doc: string): Promise<Server> {
     getAutocomplete(pos) {
       return srv.getCompletionsAtPosition(INDEX_JS, pos, {});
     },
-    getTooltipInfo(pos) {
-      return srv.getQuickInfoAtPosition(INDEX_JS, pos);
+    getTooltip(pos) {
+      const info = srv.getQuickInfoAtPosition(INDEX_JS, pos);
+      if (!info) {
+        return;
+      }
+
+      const head = ts.displayPartsToString(info.displayParts);
+      const rest = ts.displayPartsToString(info.documentation);
+      const text = `${head}\n${rest}`;
+      const len = info.textSpan.length;
+
+      return { text, len };
     },
     getDiagnostics() {
       return srv.getSemanticDiagnostics(INDEX_JS);

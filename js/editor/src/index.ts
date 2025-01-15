@@ -66,16 +66,16 @@ export function create(doc: string, parent: HTMLElement) {
           return null;
         }
 
-        const info = server.getTooltipInfo(pos);
-        if (!info) {
+        const tooltip = server.getTooltip(pos);
+        if (!tooltip) {
           return null;
         }
 
-        const end = pos + info.textSpan.length;
+        const end = pos + tooltip.len;
         const create = () => {
           const dom = document.createElement("div");
           dom.className = "cm-tooltip-cursor";
-          dom.textContent = JSON.stringify(info, null, 2);
+          dom.textContent = tooltip.text;
           return { dom };
         };
 
