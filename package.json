@@ -6,7 +6,7 @@
     "js/editor"
   ],
   "scripts": {
-    "build": "concurrently \"npm run build:core\" \"npm run build:editor\"",
+    "build": "[[ -z \"$SKIP_JS\" ]] && concurrently \"npm run build:core\" \"npm run build:editor\" || true",
     "build:core": "cd js/core && npm run build",
     "build:editor": "cd js/editor && npm run build"
   },
