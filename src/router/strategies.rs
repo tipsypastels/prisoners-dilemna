@@ -19,13 +19,23 @@ pub fn StrategiesPage() -> Html {
     let selection1 = use_state(|| None::<usize>);
     let selection2 = use_state(|| None::<usize>);
 
+    let selected_strategy1 = selection1.and_then(|i| strategies.get(i)).cloned();
+    let selected_strategy2 = selection2.and_then(|i| strategies.get(i)).cloned();
+
     html! {
         <Layout>
+            if let Some(selected_strategy1) = selected_strategy1 {
+                <div>{selected_strategy1.name()}</div>
+            }
+            if let Some(selected_strategy2) = selected_strategy2 {
+                <div>{selected_strategy2.name()}</div>
+            }
             <StrategiesList
                 strategies={strategies}
                 selection1={selection1}
                 selection2={selection2}
             />
+
         </Layout>
     }
 }
