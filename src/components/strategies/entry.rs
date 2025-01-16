@@ -1,5 +1,6 @@
 use super::StrategiesListSelectionHandle;
 use crate::{models::Strategy, tw};
+use tailwind_fuse::tw_merge;
 use yew::prelude::*;
 
 #[derive(Debug, Properties, PartialEq)]
@@ -60,6 +61,8 @@ struct SelectButtonProps {
 
 #[function_component]
 fn SelectButton(props: &SelectButtonProps) -> Html {
+    // TODO: `tw_merge` chooses the biggest option, not based on position in the macro call,
+    // which seems to be contradicted by its docs. Investigate if this becomes a problem.
     let base_class = tw!("border-2 border-dashed font-bold px-6 rounded-lg disabled:border-solid disabled:text-white");
     let index = props.index;
     let selection = props.selection.clone();
@@ -67,8 +70,7 @@ fn SelectButton(props: &SelectButtonProps) -> Html {
     let onclick = move |_| selection.set(Some(index));
 
     html! {
-        // TODO: Use `tailwind-merge`.
-        <button class={classes!(props.class, base_class)} onclick={onclick} disabled={selected}>
+        <button class={tw_merge!(base_class, props.class)} onclick={onclick} disabled={selected}>
             {props.label}
         </button>
     }

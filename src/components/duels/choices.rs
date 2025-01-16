@@ -3,6 +3,7 @@ use crate::{
     models::{Choice, DuelPlayerOutcome, DuelTurns, PlayerHistoryEntry, PlayerStatus},
     tw,
 };
+use tailwind_fuse::tw_merge;
 use yew::prelude::*;
 
 #[derive(Debug, Properties, PartialEq)]
@@ -82,7 +83,7 @@ fn ColBase(props: &ColBaseProps) -> Html {
     html! {
         <li class="w-12">
             if let ColBaseIcon::Icon(name, label, class) = props.icon {
-                <div class={classes!(icon_base_class, class)} aria-label={label}>
+                <div class={tw_merge!(icon_base_class, class)} aria-label={label}>
                     <Icon name={name} />
                 </div>
             } else if let ColBaseIcon::Empty = props.icon {
@@ -91,7 +92,7 @@ fn ColBase(props: &ColBaseProps) -> Html {
                 <div class="h-12" />
             }
 
-            <div class={classes!(score_base_class, props.score_class)}>
+            <div class={tw_merge!(score_base_class, props.score_class)}>
                 if let Some(score) = props.score {
                     {score}
                 }
