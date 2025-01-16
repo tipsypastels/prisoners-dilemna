@@ -1,6 +1,8 @@
+mod native_impl;
+
 use super::{Choice, DuelView};
+use enum_assoc::Assoc;
 use implicit_clone::{unsync::IString, ImplicitClone};
-use js_sys::Function;
 
 #[derive(Debug, Clone, ImplicitClone, PartialEq)]
 pub enum Strategy {
@@ -11,21 +13,21 @@ pub enum Strategy {
 impl Strategy {
     pub fn name(&self) -> &str {
         match self {
-            Self::Native(s) => s.name,
+            Self::Native(s) => s.name(),
             Self::Custom(s) => &s.name,
         }
     }
 
     pub fn desc(&self) -> &str {
         match self {
-            Self::Native(s) => s.desc,
+            Self::Native(s) => s.desc(),
             Self::Custom(s) => &s.desc,
         }
     }
 
     pub(super) fn turn(&self, view: DuelView) -> Choice {
         match self {
-            Self::Native(s) => (s.turn)(view),
+            Self::Native(s) => (s.turn())(view),
             Self::Custom(_) => todo!(),
         }
     }
@@ -43,54 +45,44 @@ impl From<CustomStrategy> for Strategy {
     }
 }
 
-#[derive(Debug, Copy, Clone, ImplicitClone, PartialEq)]
-pub struct NativeStrategy {
-    name: &'static str,
-    desc: &'static str,
-    turn: fn(DuelView) -> Choice,
+#[derive(Assoc, Debug, Copy, Clone, ImplicitClone, PartialEq)]
+#[func(pub const fn name(self) -> &'static str)]
+#[func(pub const fn desc(self) -> &'static str)]
+#[func(const fn turn(self) -> fn(DuelView) -> Choice)]
+pub enum NativeStrategy {
+    #[assoc(
+        name = "Always Cooperate", 
+        desc = "Always chooses to cooperate.",
+        turn = native_impl::always_cooperate,
+    )]
+    AlwaysCooperate,
+    #[assoc(
+        name = "Always Defect", 
+        desc = "Always chooses to defect.", 
+        turn = native_impl::always_defect,
+    )]
+    AlwaysDefect,
+    #[assoc(
+        name = "Tit-For-Tat",
+        desc = "Starts with cooperate, then copies the foe's last move.",
+        turn = native_impl::tit_for_tat,
+    )]
+    TitForTat,
 }
 
-#[allow(unused)]
 impl NativeStrategy {
-    pub const ALL: [Self; 3] = [
-        Self::ALWAYS_COOPERATE,
-        Self::ALWAYS_DEFECT,
-        Self::TIT_FOR_TAT,
-    ];
-
-    pub const ALWAYS_COOPERATE: Self = Self {
-        name: "Always Cooperate",
-        desc: "Always chooses to cooperate.",
-        turn: |_| Choice::Cooperate,
-    };
-
-    pub const ALWAYS_DEFECT: Self = Self {
-        name: "Always Defect",
-        desc: "Always chooses to defect.",
-        turn: |_| Choice::Defect,
-    };
-
-    pub const TIT_FOR_TAT: Self = Self {
-        name: "Tit-For-Tat",
-        desc: "Starts with cooperate, then copies the foe's last move.",
-        turn: |view| {
-            view.them
-                .history()
-                .last_choice()
-                .unwrap_or(Choice::Cooperate)
-        },
-    };
+    pub const ALL: [Self; 3] = [Self::AlwaysCooperate, Self::AlwaysDefect, Self::TitForTat];
 }
 
 #[derive(Debug, Clone, ImplicitClone, PartialEq)]
 pub struct CustomStrategy {
     name: IString,
     desc: IString,
-    turn: Function,
+    turn: IString,
 }
 
 impl CustomStrategy {
-    pub fn new(name: IString, desc: IString, turn: Function) -> Self {
+    pub fn new(name: IString, desc: IString, turn: IString) -> Self {
         Self { name, desc, turn }
     }
 

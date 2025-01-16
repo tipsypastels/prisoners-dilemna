@@ -88,6 +88,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "enum-assoc"
+version = "1.2.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4f4b100e337b021ae69f3e7dd82e230452c54ff833958446c4a3854c66dc9326"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.96",
+]
+
+[[package]]
 name = "equivalent"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -825,6 +836,7 @@ dependencies = [
 name = "prisoners-dilemna"
 version = "0.1.0"
 dependencies = [
+ "enum-assoc",
  "gloo 0.11.0",
  "implicit-clone 0.5.0",
  "js-sys",

@@ -7,6 +7,7 @@ edition = "2021"
 hash-router = []
 
 [dependencies]
+enum-assoc = "1.2.4"
 gloo = { version = "0.11.0", features = ["console"] }
 implicit-clone = { version = "0.5.0", features = ["map", "serde"] }
 js-sys = "0.3.77"
