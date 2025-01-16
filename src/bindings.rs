@@ -11,9 +11,6 @@ extern "C" {
     #[wasm_bindgen(js_name = getNextId)]
     pub fn get_next_id() -> u32;
 
-    #[wasm_bindgen(js_name = setPublicUrl)]
-    pub fn set_public_url(public_url: &str);
-
     #[wasm_bindgen(js_name = createEditor)]
     pub async fn create_editor(doc: &str, parent: HtmlElement) -> EditorView;
 }

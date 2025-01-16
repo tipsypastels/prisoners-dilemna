@@ -40,8 +40,6 @@ jobs:
         run: npm install
 
       - name: Build
-        env:
-          PUBLIC_URL: "/${{ github.event.repository.name }}"
         run: trunk build --public-url /${{ github.event.repository.name }} --features hash-router --release
 
       - name: Setup Pages

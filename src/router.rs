@@ -34,7 +34,7 @@ pub fn Router() -> Html {
 
     html! {
         <div>
-            <MyRouter basename={option_env!("PUBLIC_URL")}>
+            <MyRouter>
                 <Switch<Route> render={switch} />
             </MyRouter>
         </div>

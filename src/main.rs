@@ -26,7 +26,6 @@ fn App() -> Html {
 }
 
 fn main() {
-    bindings::set_public_url(option_env!("PUBLIC_URL").unwrap_or_default());
     yew::Renderer::<App>::new().render();
 }
 
