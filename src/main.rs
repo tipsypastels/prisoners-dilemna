@@ -15,9 +15,11 @@ use yew::prelude::*;
 #[function_component]
 fn App() -> Html {
     let state = use_reducer(State::default);
+    let debug_state = format!("{state:?}");
 
     html! {
         <StateContextProvider context={state}>
+            <pre><code>{debug_state}</code></pre>
             <Router />
         </StateContextProvider>
     }

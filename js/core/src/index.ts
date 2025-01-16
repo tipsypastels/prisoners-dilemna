@@ -2,7 +2,7 @@ let nextId = 0;
 let publicUrl: string;
 
 export function getNextId() {
-  return nextId++;
+  return ++nextId;
 }
 
 export function setPublicUrl(to: string) {
