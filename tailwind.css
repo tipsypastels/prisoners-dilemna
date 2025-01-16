@@ -17,7 +17,5 @@ body {
       transparent 12px
     );
 
-  border-left: theme("space.4") solid theme("colors.lime.500");
-  border-right: theme("space.4") solid transparent;
   min-height: 100vh;
 }
