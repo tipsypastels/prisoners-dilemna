@@ -29,6 +29,7 @@ impl Default for State {
 
 #[derive(Debug)]
 #[allow(clippy::enum_variant_names)] // remove when more actions
+#[allow(clippy::large_enum_variant)] // TODO: is this an issue?
 pub enum Action {
     DuelNew(Id, Duel),
     DuelNext(Id),
