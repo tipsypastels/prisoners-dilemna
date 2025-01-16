@@ -15,9 +15,9 @@ pub fn DuelsPlayer(props: &DuelsPlayerProps) -> Html {
     let (player, turns, outcome) = (&props.player, props.turns, &props.outcome);
     html! {
         <section>
-            <h3 class="text-3xl font-bold mb-4">
+            <h2 class="text-3xl font-bold mb-4">
                 {player.strategy().name()}
-            </h3>
+            </h2>
 
             <DuelsPlayerChoices
                 status={player.status().clone()}
