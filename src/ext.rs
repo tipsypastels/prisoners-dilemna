@@ -23,7 +23,7 @@ pub trait IMapExt<K, V> {
     where
         K: Borrow<Q>,
         Q: Hash + Eq + ?Sized;
-    fn transform<Q>(self, key: &Q, f: impl Fn(V) -> V) -> Self
+    fn transform<Q>(self, key: &Q, f: impl FnOnce(V) -> V) -> Self
     where
         K: Borrow<Q>,
         Q: Hash + Eq + ?Sized;
@@ -46,13 +46,20 @@ where
         self.iter().filter(|(k, _)| k.borrow() != key).collect()
     }
 
-    fn transform<Q>(self, key: &Q, f: impl Fn(V) -> V) -> Self
+    fn transform<Q>(self, key: &Q, f: impl FnOnce(V) -> V) -> Self
     where
         K: Borrow<Q>,
         Q: Hash + Eq + ?Sized,
     {
+        let mut f = Some(f);
         self.iter()
-            .map(|(k, v)| if k.borrow() == key { (k, f(v)) } else { (k, v) })
+            .map(|(k, v)| {
+                if k.borrow() == key {
+                    (k, f.take().unwrap()(v))
+                } else {
+                    (k, v)
+                }
+            })
             .collect()
     }
 }
