@@ -1,8 +1,9 @@
 use super::{Player, PlayerStatus};
 use crate::models::Choice;
 use implicit_clone::ImplicitClone;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, ImplicitClone, PartialEq)]
+#[derive(Debug, Deserialize, Serialize, Clone, ImplicitClone, PartialEq)]
 pub struct Duel {
     p1: Player,
     p2: Player,
@@ -75,7 +76,7 @@ impl Duel {
     }
 }
 
-#[derive(Debug, Copy, Clone, ImplicitClone, PartialEq)]
+#[derive(Debug, Deserialize, Serialize, Copy, Clone, ImplicitClone, PartialEq)]
 pub struct DuelTurns {
     pub cur: u32,
     pub max: u32,

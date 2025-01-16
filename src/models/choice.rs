@@ -1,6 +1,7 @@
 use implicit_clone::ImplicitClone;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Copy, Clone, ImplicitClone, PartialEq)]
+#[derive(Debug, Deserialize, Serialize, Copy, Clone, ImplicitClone, PartialEq)]
 pub enum Choice {
     Cooperate,
     Defect,

@@ -1,8 +1,11 @@
 use crate::bindings;
 use implicit_clone::ImplicitClone;
+use serde::{Deserialize, Serialize};
 use std::{fmt, str::FromStr};
 
-#[derive(Debug, Copy, Clone, ImplicitClone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(
+    Debug, Deserialize, Serialize, Copy, Clone, ImplicitClone, PartialEq, Eq, PartialOrd, Ord, Hash,
+)]
 pub struct Id(u32);
 
 impl Id {

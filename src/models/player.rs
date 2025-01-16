@@ -1,9 +1,10 @@
 use super::{Choice, Strategy};
 use crate::ext::IArrayExt;
 use implicit_clone::{unsync::IArray, ImplicitClone};
+use serde::{Deserialize, Serialize};
 use std::ops::Deref;
 
-#[derive(Debug, Clone, ImplicitClone, PartialEq)]
+#[derive(Debug, Deserialize, Serialize, Clone, ImplicitClone, PartialEq)]
 pub struct Player {
     strategy: Strategy,
     status: PlayerStatus,
@@ -33,7 +34,7 @@ impl Player {
     }
 }
 
-#[derive(Debug, Clone, ImplicitClone, PartialEq)]
+#[derive(Debug, Deserialize, Serialize, Clone, ImplicitClone, PartialEq)]
 pub struct PlayerStatus {
     history: PlayerHistory,
     score: u32,
@@ -63,14 +64,14 @@ impl PlayerStatus {
     }
 }
 
-#[derive(Debug, Clone, ImplicitClone, PartialEq)]
+#[derive(Debug, Deserialize, Serialize, Clone, ImplicitClone, PartialEq)]
 pub struct PlayerHistory {
     entries: IArray<PlayerHistoryEntry>,
     ever_cooperated: bool,
     ever_defected: bool,
 }
 
-#[derive(Debug, Copy, Clone, ImplicitClone, PartialEq)]
+#[derive(Debug, Deserialize, Serialize, Copy, Clone, ImplicitClone, PartialEq)]
 pub struct PlayerHistoryEntry {
     pub choice: Choice,
     pub gain: u32,

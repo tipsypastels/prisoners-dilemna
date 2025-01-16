@@ -4,13 +4,14 @@ use crate::{
     models::{CustomStrategy, Duel},
 };
 use implicit_clone::unsync::{IArray, IMap};
+use serde::{Deserialize, Serialize};
 use std::rc::Rc;
 use yew::prelude::*;
 
 pub type StateContext = UseReducerHandle<State>;
 pub type StateContextProvider = ContextProvider<StateContext>;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Deserialize, Serialize, PartialEq)]
 pub struct State {
     pub duels: IMap<Id, Duel>,
     pub custom_strategies: IArray<CustomStrategy>,

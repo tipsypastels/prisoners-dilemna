@@ -3,8 +3,9 @@ mod native_impl;
 use super::{Choice, DuelView};
 use enum_assoc::Assoc;
 use implicit_clone::{unsync::IString, ImplicitClone};
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, ImplicitClone, PartialEq)]
+#[derive(Debug, Deserialize, Serialize, Clone, ImplicitClone, PartialEq)]
 pub enum Strategy {
     Native(NativeStrategy),
     Custom(CustomStrategy),
@@ -45,7 +46,7 @@ impl From<CustomStrategy> for Strategy {
     }
 }
 
-#[derive(Assoc, Debug, Copy, Clone, ImplicitClone, PartialEq)]
+#[derive(Assoc, Debug, Deserialize, Serialize, Copy, Clone, ImplicitClone, PartialEq)]
 #[func(pub const fn name(self) -> &'static str)]
 #[func(pub const fn desc(self) -> &'static str)]
 #[func(const fn turn(self) -> fn(DuelView) -> Choice)]
@@ -74,7 +75,7 @@ impl NativeStrategy {
     pub const ALL: [Self; 3] = [Self::AlwaysCooperate, Self::AlwaysDefect, Self::TitForTat];
 }
 
-#[derive(Debug, Clone, ImplicitClone, PartialEq)]
+#[derive(Debug, Deserialize, Serialize, Clone, ImplicitClone, PartialEq)]
 pub struct CustomStrategy {
     name: IString,
     desc: IString,
