@@ -44,6 +44,6 @@ pub fn Router() -> Html {
 fn switch(route: Route) -> Html {
     match route {
         Route::Strategies => html! { <strategies::StrategiesPage /> },
-        Route::Duel { .. } => html! { <duel::DuelPage /> },
+        Route::Duel { id } => html! { <duel::DuelPage id={id} /> },
     }
 }
