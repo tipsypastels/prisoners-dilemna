@@ -1,6 +1,7 @@
-mod index;
-mod other;
+mod duel;
+mod strategies;
 
+use crate::id::Id;
 use implicit_clone::ImplicitClone;
 use yew::prelude::*;
 use yew_router::prelude::*;
@@ -10,16 +11,16 @@ pub type RouteLink = Link<Route>;
 #[derive(Debug, Clone, ImplicitClone, PartialEq, Routable)]
 pub enum Route {
     #[at("/")]
-    Index,
-    #[at("/other")]
-    Other,
+    Strategies,
+    #[at("/game/:id")]
+    Duel { id: Id },
 }
 
 impl Route {
     pub fn title(&self) -> &'static str {
         match self {
-            Self::Index => "Home",
-            Self::Other => "Other",
+            Self::Strategies => "Strategies",
+            Self::Duel { .. } => "Game",
         }
     }
 }
@@ -34,8 +35,6 @@ pub fn Router() -> Html {
     html! {
         <div>
             <MyRouter basename={option_env!("PUBLIC_URL")}>
-                <Link<Route> to={Route::Index}>{"Go to Index"}</Link<Route>>
-                <Link<Route> to={Route::Other}>{"Go to Other"}</Link<Route>>
                 <Switch<Route> render={switch} />
             </MyRouter>
         </div>
@@ -44,7 +43,7 @@ pub fn Router() -> Html {
 
 fn switch(route: Route) -> Html {
     match route {
-        Route::Index => html! { <index::Index /> },
-        Route::Other => html! { <other::Other /> },
+        Route::Strategies => html! { <strategies::StrategiesPage /> },
+        Route::Duel { .. } => html! { <duel::DuelPage /> },
     }
 }

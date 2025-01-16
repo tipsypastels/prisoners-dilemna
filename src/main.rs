@@ -1,6 +1,7 @@
 mod bindings;
 mod components;
 mod ext;
+mod id;
 mod models;
 mod router;
 mod state;
@@ -16,11 +17,9 @@ fn App() -> Html {
     let state = use_reducer(State::default);
 
     html! {
-        <div class="p-4 px-8 font-bold">
-            <StateContextProvider context={state}>
-                <Router />
-            </StateContextProvider>
-        </div>
+        <StateContextProvider context={state}>
+            <Router />
+        </StateContextProvider>
     }
 }
 

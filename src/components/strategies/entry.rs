@@ -16,9 +16,17 @@ pub struct StrategiesEntryProps {
 pub fn StrategiesEntry(props: &StrategiesEntryProps) -> Html {
     let strategy = &props.strategy;
     html! {
-        <li>
-            <div>
-                {strategy.name()}
+        <li class="mb-4 p-4 shadow-lg transition hover:-translate-y-1">
+            <div class="flex rounded-lg border-2 border-dashed border-lime-500 p-4">
+                <div class="grow">
+                    <h2 class="mb-2 text-xl font-bold">
+                        {strategy.name()}
+                    </h2>
+
+                    <div class="text-gray-600">
+                        {strategy.desc()}
+                    </div>
+                </div>
             </div>
         </li>
     }

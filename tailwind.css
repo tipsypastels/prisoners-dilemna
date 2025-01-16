@@ -3,20 +3,21 @@
 @tailwind utilities;
 
 body {
-  background-color: theme("colors.amber.50");
+  background-color: theme("colors.white");
   background-size: 100% 24px, 24px 100%;
   background-image: linear-gradient(
       transparent 11px,
-      theme("colors.amber.200") 12px,
+      theme("colors.lime.200") 12px,
       transparent 12px
     ),
     linear-gradient(
       90deg,
       transparent 11px,
-      theme("colors.amber.200") 12px,
+      theme("colors.lime.200") 12px,
       transparent 12px
     );
 
-  border-left: theme("space.4") solid theme("colors.amber.500");
+  border-left: theme("space.4") solid theme("colors.lime.500");
+  border-right: theme("space.4") solid transparent;
   min-height: 100vh;
 }

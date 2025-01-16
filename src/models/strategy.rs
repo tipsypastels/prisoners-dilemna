@@ -60,19 +60,19 @@ impl NativeStrategy {
 
     pub const ALWAYS_COOPERATE: Self = Self {
         name: "Always Cooperate",
-        desc: "TODO",
+        desc: "Always chooses to cooperate.",
         turn: |_| Choice::Cooperate,
     };
 
     pub const ALWAYS_DEFECT: Self = Self {
         name: "Always Defect",
-        desc: "TODO",
+        desc: "Always chooses to defect.",
         turn: |_| Choice::Defect,
     };
 
     pub const TIT_FOR_TAT: Self = Self {
         name: "Tit-For-Tat",
-        desc: "TODO",
+        desc: "Starts with cooperate, then copies the foe's last move.",
         turn: |view| {
             view.them
                 .history()

@@ -16,12 +16,16 @@ pub fn Layout(props: &LayoutProps) -> Html {
     let title = props.title.as_deref().unwrap_or(route.title());
 
     html! {
-        <main>
-            <h1>{title}</h1>
+        <div class="m-auto w-[800px] max-w-full pt-16">
+            <header class="mb-4 flex border-b-4 border-b-lime-900 pb-4">
+                <h1 class="grow text-center text-4xl font-bold text-lime-900">
+                    {title}
+                </h1>
+            </header>
 
-            <div>
+            <main>
                 {props.children.clone()}
-            </div>
-        </main>
+            </main>
+        </div>
     }
 }

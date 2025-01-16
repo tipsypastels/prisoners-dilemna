@@ -8,6 +8,9 @@ extern "C" {
     #[derive(Debug, Clone, ImplicitClone, PartialEq)]
     pub type EditorView;
 
+    #[wasm_bindgen(js_name = getNextId)]
+    pub fn get_next_id() -> u32;
+
     #[wasm_bindgen(js_name = setPublicUrl)]
     pub fn set_public_url(public_url: &str);
 

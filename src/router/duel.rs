@@ -2,10 +2,10 @@ use crate::components::layout::Layout;
 use yew::prelude::*;
 
 #[function_component]
-pub fn Other() -> Html {
+pub fn DuelPage() -> Html {
     html! {
         <Layout>
-            {"Other"}
+            {"Duel"}
         </Layout>
     }
 }
