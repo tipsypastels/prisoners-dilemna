@@ -1,10 +1,8 @@
 use crate::bindings;
 use implicit_clone::ImplicitClone;
 use std::{fmt, str::FromStr};
-use wasm_bindgen::prelude::*;
 
 #[derive(Debug, Copy, Clone, ImplicitClone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-#[wasm_bindgen]
 pub struct Id(u32);
 
 impl Id {
