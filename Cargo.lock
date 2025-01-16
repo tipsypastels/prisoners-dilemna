@@ -841,6 +841,7 @@ dependencies = [
  "implicit-clone 0.5.0",
  "js-sys",
  "serde",
+ "serde_json",
  "tailwind_fuse",
  "wasm-bindgen",
  "wasm-bindgen-futures",

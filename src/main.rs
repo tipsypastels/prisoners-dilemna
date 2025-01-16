@@ -8,18 +8,18 @@ mod state;
 
 use self::{
     router::Router,
-    state::{State, StateContextProvider},
+    state::{use_state_persistence, State, StateContextProvider},
 };
 use yew::prelude::*;
 
 #[function_component]
 fn App() -> Html {
     let state = use_reducer(State::default);
-    let debug_state = format!("{state:?}");
+
+    use_state_persistence(state.clone());
 
     html! {
         <StateContextProvider context={state}>
-            <pre><code>{debug_state}</code></pre>
             <Router />
         </StateContextProvider>
     }

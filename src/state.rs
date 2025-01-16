@@ -3,10 +3,16 @@ use crate::{
     id::Id,
     models::{CustomStrategy, Duel},
 };
+use gloo::{
+    console,
+    storage::{LocalStorage, Storage},
+};
 use implicit_clone::unsync::{IArray, IMap};
 use serde::{Deserialize, Serialize};
 use std::rc::Rc;
 use yew::prelude::*;
+
+const STATE_KEY: &str = "pdstate_v1";
 
 pub type StateContext = UseReducerHandle<State>;
 pub type StateContextProvider = ContextProvider<StateContext>;
@@ -20,10 +26,13 @@ pub struct State {
 #[allow(clippy::derivable_impls)]
 impl Default for State {
     fn default() -> Self {
-        Self {
-            duels: IMap::default(),
-            custom_strategies: IArray::default(),
-        }
+        LocalStorage::get(STATE_KEY).unwrap_or_else(|e| {
+            console::log!(e.to_string());
+            Self {
+                duels: IMap::default(),
+                custom_strategies: IArray::default(),
+            }
+        })
     }
 }
 
@@ -60,4 +69,14 @@ impl Reducible for State {
 #[hook]
 pub fn use_state_context() -> StateContext {
     use_context::<StateContext>().unwrap()
+}
+
+#[hook]
+pub fn use_state_persistence(state_ctx: StateContext) {
+    use_effect_with(state_ctx, |state_ctx| {
+        let state: &State = state_ctx;
+        if let Err(error) = LocalStorage::set(STATE_KEY, state) {
+            console::log!("Failed to save state", error.to_string());
+        };
+    });
 }

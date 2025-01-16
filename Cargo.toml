@@ -12,6 +12,7 @@ gloo = { version = "0.11.0", features = ["console", "storage"] }
 implicit-clone = { version = "0.5.0", features = ["map", "serde"] }
 js-sys = "0.3.77"
 serde = { version = "1.0.217", features = ["derive"] }
+serde_json = "1.0.135"
 tailwind_fuse = "0.3.1"
 wasm-bindgen = "0.2.100"
 wasm-bindgen-futures = "0.4.50"
