@@ -3,10 +3,7 @@ use crate::{
     id::Id,
     models::{CustomStrategy, Duel},
 };
-use gloo::{
-    console,
-    storage::{LocalStorage, Storage},
-};
+use gloo::storage::{LocalStorage, Storage};
 use implicit_clone::unsync::{IArray, IMap};
 use serde::{Deserialize, Serialize};
 use std::rc::Rc;
@@ -17,22 +14,17 @@ const STATE_KEY: &str = "pdstate_v1";
 pub type StateContext = UseReducerHandle<State>;
 pub type StateContextProvider = ContextProvider<StateContext>;
 
-#[derive(Debug, Deserialize, Serialize, PartialEq)]
+#[derive(Debug, Default, Deserialize, Serialize, PartialEq)]
 pub struct State {
     pub duels: IMap<Id, Duel>,
     pub custom_strategies: IArray<CustomStrategy>,
 }
 
-#[allow(clippy::derivable_impls)]
-impl Default for State {
-    fn default() -> Self {
-        LocalStorage::get(STATE_KEY).unwrap_or_else(|e| {
-            console::log!(e.to_string());
-            Self {
-                duels: IMap::default(),
-                custom_strategies: IArray::default(),
-            }
-        })
+impl State {
+    fn new() -> Self {
+        LocalStorage::get(STATE_KEY)
+            .ok()
+            .unwrap_or_else(Self::default)
     }
 }
 
@@ -67,16 +59,18 @@ impl Reducible for State {
 }
 
 #[hook]
-pub fn use_state_context() -> StateContext {
-    use_context::<StateContext>().unwrap()
+pub fn use_state_new() -> StateContext {
+    let state_ctx = use_reducer(State::new);
+
+    use_effect_with(state_ctx.clone(), |state_ctx| {
+        let state: &State = state_ctx;
+        LocalStorage::set(STATE_KEY, state).ok();
+    });
+
+    state_ctx
 }
 
 #[hook]
-pub fn use_state_persistence(state_ctx: StateContext) {
-    use_effect_with(state_ctx, |state_ctx| {
-        let state: &State = state_ctx;
-        if let Err(error) = LocalStorage::set(STATE_KEY, state) {
-            console::log!("Failed to save state", error.to_string());
-        };
-    });
+pub fn use_state_context() -> StateContext {
+    use_context::<StateContext>().unwrap()
 }
